@@ -8,20 +8,41 @@ class MyHomePage extends StatelessWidget {
   final String kelas = "PBP KKI";
 
   final List<ItemHomepage> items = [
-    ItemHomepage("View Projects", Icons.folder),
-    ItemHomepage("Add Project", Icons.add_circle),
-    ItemHomepage("Logout", Icons.logout),
+    ItemHomepage(
+      "View Projects",
+      Icons.folder,
+      const Color(0xFFFF6A00),
+    ), // Active Selection Orange
+    ItemHomepage(
+      "Add Project",
+      Icons.add_circle,
+      const Color(0xFF262B34),
+    ), // Hangar Gunmetal Slate
+    ItemHomepage(
+      "Logout",
+      Icons.logout,
+      const Color(0xFF9B1C1C),
+    ), // Sortie Abort Crimson
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF0A0C0E),
       appBar: AppBar(
         title: const Text(
-          'MyPortfolio',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          'MYPORTFOLIO',
+          style: TextStyle(
+            color: Color(0xFFFF6A00),
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.8,
+          ),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: const Color(0xFF12151A),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(2.0),
+          child: Container(color: const Color(0xFFFF6A00), height: 2.0),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -49,8 +70,10 @@ class MyHomePage extends StatelessWidget {
                     child: Text(
                       'Welcome to MyPortfolio Mobile!',
                       style: TextStyle(
+                        color: Color(0xFFF3F4F6),
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -76,9 +99,7 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-
 class InfoCard extends StatelessWidget {
-  // Information card displaying a title and its associated content.
   final String title;
   final String content;
 
@@ -87,15 +108,31 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2.0,
+      color: const Color(0xFF14171D),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+        side: const BorderSide(color: Color(0x99FF6A00), width: 1.0),
+      ),
       child: Container(
         width: MediaQuery.of(context).size.width / 3.5,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              title.toUpperCase(),
+              style: const TextStyle(
+                color: Color(0xFFFF6A00),
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.1,
+              ),
+            ),
             const SizedBox(height: 8.0),
-            Text(content),
+            Text(
+              content,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Color(0xFFE5E7EB)),
+            ),
           ],
         ),
       ),
@@ -103,14 +140,13 @@ class InfoCard extends StatelessWidget {
   }
 }
 
-
 class ItemHomepage {
   final String name;
   final IconData icon;
+  final Color color;
 
-  ItemHomepage(this.name, this.icon);
+  ItemHomepage(this.name, this.icon, this.color);
 }
-
 
 class ItemCard extends StatelessWidget {
   final ItemHomepage item;
@@ -120,14 +156,24 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.secondary,
-      borderRadius: BorderRadius.circular(12),
+      color: item.color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+        side: const BorderSide(color: Color(0x4DFFFFFF), width: 1.0),
+      ),
       child: InkWell(
+        borderRadius: BorderRadius.circular(4),
         onTap: () {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              SnackBar(content: Text("You pressed the ${item.name} button!")),
+              SnackBar(
+                backgroundColor: const Color(0xFF14171D),
+                content: Text(
+                  "You pressed the ${item.name} button!",
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
             );
         },
         child: Container(
@@ -141,7 +187,10 @@ class ItemCard extends StatelessWidget {
                 Text(
                   item.name,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
