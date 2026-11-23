@@ -14,17 +14,22 @@ class MyHomePage extends StatelessWidget {
       "View Projects",
       Icons.folder,
       const Color(0xFFFF6A00),
-    ), // Active Selection Orange
+    ), 
     ItemHomepage(
       "Add Project",
       Icons.add_circle,
       const Color(0xFF262B34),
-    ), // Hangar Gunmetal Slate
+    ), 
+    ItemHomepage(
+      "Add Education",
+      Icons.school,
+      const Color(0xFF262B34),
+    ), 
     ItemHomepage(
       "Logout",
       Icons.logout,
       const Color(0xFF9B1C1C),
-    ), // Sortie Abort Crimson
+    ), 
   ];
 
   @override
@@ -58,55 +63,58 @@ class MyHomePage extends StatelessWidget {
             colorFilter: ColorFilter.mode(Color(0x990A0C0E), BlendMode.darken),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Horizontal row showing 3 InfoCards.
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InfoCard(title: 'NPM', content: npm),
-                  InfoCard(title: 'Name', content: nama),
-                  InfoCard(title: 'Class', content: kelas),
-                ],
-              ),
-
-              const SizedBox(height: 16.0),
-
-              // Greeting and 3-column action grid.
-              Center(
-                child: Column(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Horizontal row showing 3 InfoCards.
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 16.0),
-                      child: Text(
-                        'Welcome to MyPortfolio Mobile!',
-                        style: TextStyle(
-                          color: Color(0xFFF3F4F6),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ),
-
-                    GridView.count(
-                      primary: true,
-                      padding: const EdgeInsets.all(20),
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      crossAxisCount: 3,
-                      shrinkWrap: true,
-                      children: items.map((ItemHomepage item) {
-                        return ItemCard(item);
-                      }).toList(),
-                    ),
+                    InfoCard(title: 'NPM', content: npm),
+                    InfoCard(title: 'Name', content: nama),
+                    InfoCard(title: 'Class', content: kelas),
                   ],
                 ),
-              ),
-            ],
+
+                const SizedBox(height: 16.0),
+
+                // Greeting and 3-column action grid.
+                Center(
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0),
+                        child: Text(
+                          'Welcome to MyPortfolio Mobile!',
+                          style: TextStyle(
+                            color: Color(0xFFF3F4F6),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ),
+
+                      GridView.count(
+                        primary: false,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.all(20),
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        crossAxisCount: 3,
+                        shrinkWrap: true,
+                        children: items.map((ItemHomepage item) {
+                          return ItemCard(item);
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -93,8 +93,42 @@ Hot reload injects updated source code files directly to the Dart Virtual Machin
 
 A hot reload cannot be relied upon when modifying global variables or static fields, which are only evalutated when the app starts, essentially the same applies when making changes to main() or initState(), necessitating a hot restart. Converting the widget types and modifying enum definitions or generic type declarations will also require a hot restart. Adding or updating native dependencies/plugins, and editing native configuration files will necessitate a full restart (native binary recompile).
 
+### Assignment 8
+
+1. Explain the differences between Navigator.push(), Navigator.pushReplacement(), and Navigator.pop(). Which method opens the form from the action card? Explain how the Home option in the drawer takes the user back to the home screen.
+
+Navigator.push(), pushes a new route onto the top of the navigation stack while keeping the previous route underneath it, allowing the user to return to the previous screen using the system/browser Back button
+
+Navigator.pushReplacement(), replaces the current route at the top of the stack with a new route and removing the old one, preventing the user from navigating back to the replaced screen
+
+Navigator.pop(), removes the top-most route (such as a screen, modal, or dialog) from the navigation stack and returns focus to the route directly beneath it.
+
+In the ItemCard, clicking the Add Education card calls Navigator.push() to open EducationFormPage on top of MyHomePage, preserving Back-button navigation.
+
+In LeftDrawer (lib/widgets/left_drawer.dart), selecting the Home ListTile executes Navigator.pushReplacement() with MaterialPageRoute(builder: (context) => yHomePageM()). This replaces the active form screen with MyHomePage rather than stacking duplicates of the home screen on top of each other.
+
+2. How does the arrangement of Scaffold, AppBar, and Drawer keep the page structure consistent? Give one example of the portfolio theme colors being used on more than one page.
+
+Both MyHomePage and EducationFormPage use a top-level Scaffold that anchors an AppBar at the top of the screen and attaches the exact same reusable LeftDrawer widget to the drawer property. Reusing this hierarchy guarantees uniform header placement, drawer toggle behavior, and navigation routes across screens. In my case my Project Wingman themed palette.
+
+
+3. Why was this layout chosen for the form? Explain what the spacing and scrolling widgets do when screen space is limited. A single-column vertical wrapped in a SingleChildScrollView ensures all six Education fields span the available width cleanly and remain readable on both narrow mobile screens and wider desktop browser windows.
+
+When vertical viewport space shrinks such as on compact screens or when the soft on-screen keyboard slides up SingleChildScrollView makes the form scrollable rather than throwing a RenderFlex overflow error, keeping every input field and the Save button accessible.
+
+Outer screen padding and per-field bottom spacing separate touch targets and leave room for inline validation error messages to appear beneath fields without overlapping adjacent inputs.
+
+
+4. What roles do GlobalKey<FormState>, validator, and validate() play when Save is pressed? Give one example of a value the form rejects and explain why choosing an input widget or keyboard type alone is insufficient.
+
+When the Save button is pressed on EducationFormPage, GlobalKey<FormState> (_formKey), validator, and validate() work together to verify user input before displaying the summary dialog. The GlobalKey<FormState> uniquely identifies the Form widget across rebuilds and gives the external Save ElevatedButton access to its FormState. Inside the form, each TextFormField defines a validator function that inspects the field's current value and returns either a  error message if a constraint is broken or null if the value is valid. Clicking Save calls _formKey.currentState!.validate(), which runs every validator inside the form, displays any returned error messages beneath their corresponding fields, and returns true only when every input passes so that showDialog() can open the summary AlertDialog
+
+
 
 ## AI DISCLOSURE
 
 ### Assignment 7
 AI was used minimally for this assignment, only assisting with the hexcode for the colors I desired in menu and main, some comments and minor bugfixes. Aswell as assisting in figuring out how to add an image backdrop. As the task is still relatively simple the limitations of AI have not yet shown. Alternate use was in summarising documentation related information and to check the accuracy of my understanding of a concept(Model used: Gemini Hydrogen).
+
+### Assignment 8
+AI was used minimally for this assignment, only assisting in minor bugfixing and some small parts of implementing flutter for one of my portofolio sections. Otherwise use case is the same or similar to Assignment 7, same model was also used.
