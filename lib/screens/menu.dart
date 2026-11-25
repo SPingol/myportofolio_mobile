@@ -10,26 +10,10 @@ class MyHomePage extends StatelessWidget {
   final String kelas = "PBP KKI";
 
   final List<ItemHomepage> items = [
-    ItemHomepage(
-      "View Projects",
-      Icons.folder,
-      const Color(0xFFFF6A00),
-    ), 
-    ItemHomepage(
-      "Add Project",
-      Icons.add_circle,
-      const Color(0xFF262B34),
-    ), 
-    ItemHomepage(
-      "Add Education",
-      Icons.school,
-      const Color(0xFF262B34),
-    ), 
-    ItemHomepage(
-      "Logout",
-      Icons.logout,
-      const Color(0xFF9B1C1C),
-    ), 
+    ItemHomepage("View Projects", Icons.folder, const Color(0xFFFF6A00)),
+    ItemHomepage("Add Project", Icons.add_circle, const Color(0xFF262B34)),
+    ItemHomepage("Add Education", Icons.school, const Color(0xFF262B34)),
+    ItemHomepage("Logout", Icons.logout, const Color(0xFF9B1C1C)),
   ];
 
   @override
