@@ -2,6 +2,10 @@ import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/screens/education_form.dart';
 import 'package:myportofolio_mobile/screens/menu.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
+import 'package:myportofolio_mobile/screens/project_list_screen.dart';
+import 'package:myportofolio_mobile/services/auth_state.dart';
+import 'package:myportofolio_mobile/widgets/auth_guard.dart';
+import 'package:provider/provider.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemHomepage item;
@@ -18,7 +22,40 @@ class ItemCard extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(4),
-        onTap: () {
+        onTap: () async {
+          if (item.name == "Logout") {
+            final authState = context.read<AuthState>();
+            if (!authState.isLoggedIn) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  const SnackBar(
+                    backgroundColor: Color(0xFF14171D),
+                    content: Text(
+                      'You are not logged in.',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                );
+              return;
+            }
+
+            await authState.logout();
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(
+                  backgroundColor: Color(0xFF14171D),
+                  content: Text(
+                    'Logged out successfully!',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              );
+            return;
+          }
+
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -31,7 +68,16 @@ class ItemCard extends StatelessWidget {
               ),
             );
 
-          if (item.name == "Add Project") {
+          if (item.name == "View Projects") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProjectListScreen(),
+              ),
+            );
+          } else if (item.name == "Add Project") {
+            final allowed = await ensureLoggedIn(context);
+            if (!context.mounted || !allowed) return;
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ProjectFormPage()),
